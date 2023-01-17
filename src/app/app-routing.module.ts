@@ -7,10 +7,19 @@ import {HomeComponentModule} from './components/home/home.component-module';
 import {CategoryProductsComponentModule} from './components/category-products/category-products.component-module';
 import {StoreProductsComponentModule} from './components/store-products/store-products.component-module';
 
-const routes: Routes = [{path: '', component: HomeComponent}, {
-  path: 'categories/:categoryId',
-  component: CategoryProductsComponent
-}, {path: 'stores/:storeId', component: StoreProductsComponent}];
+const routes: Routes = [
+  {
+    path: '',
+    component: HomeComponent
+  },
+  {
+    path: 'categories/:categoryId',
+    component: CategoryProductsComponent
+  },
+  {
+    path: 'stores/:storeId',
+    component: StoreProductsComponent
+  }];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes), HomeComponentModule, CategoryProductsComponentModule, StoreProductsComponentModule],
