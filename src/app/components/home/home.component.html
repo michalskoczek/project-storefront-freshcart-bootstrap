@@ -16,7 +16,8 @@
             src="/assets/images/logo/freshcart-logo.svg" alt="eCommerce HTML Template"> </a>
             <div class="d-flex align-items-center lh-1">                  <!-- Button -->
               <button class="navbar-toggler collapsed" type="button" aria-controls="navbar-default"
-                      aria-label="Toggle navigation" (click)="showMobileMenu()"><span class="icon-bar top-bar mt-0"></span> <span
+                      aria-label="Toggle navigation" (click)="showMobileMenu()"><span
+                class="icon-bar top-bar mt-0"></span> <span
                 class="icon-bar middle-bar"></span> <span class="icon-bar bottom-bar"></span></button>
             </div>
           </div>
@@ -25,6 +26,7 @@
     </div>
   </div>
 </header>
+
 <div class="border-bottom pb-lg-4 pb-3">
   <nav class="navbar navbar-expand-lg navbar-light navbar-default pt-0 pb-0">
     <div class="container px-0 px-md-3">
@@ -44,6 +46,67 @@
     </div>
   </nav>
 </div>
+
+<section class="my-lg-14 my-8">
+  <div class="container">
+    <div class="row mb-3">
+      <h2>Shop by Category</h2>
+    </div>
+    <div class="row">
+      <div *ngFor="let category of categories$ | async" class="col-12 col-md-4 col-lg-3 mb-3">
+        <a [routerLink]="['categories', category.id]" class="text-decoration-none text-inherit">
+          <!-- card -->
+          <div class="card card-product">
+            <div class="card-body text-center py-8">
+              <!-- img -->
+              <img [src]="category.imageUrl" [alt]="category.name" class="mb-3">
+              <!-- text -->
+              <div class="text-truncate">{{category.name}}</div>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="my-lg-14 my-8">
+  <div class="container">
+    <div class="row mb-3">
+      <h2>Stores</h2>
+    </div>
+    <ng-container *ngIf="stores$ | async as stores">
+      <div class="row">
+        <p>We have {{stores.length}} vendors now</p>
+      </div>
+      <div class="row">
+        <div *ngFor="let store of stores" class="col-12 col-md-6 col-lg-4 mb-3">
+          <div class="card flex-row p-8 card-product ">
+            <div><img [src]="store.logoUrl" [alt]="store.name" class="rounded-circle icon-shape icon-xl"></div>
+            <div class="ms-6">
+              <h5 class="mb-1">
+                <a [routerLink]="['stores', store.id]" class="text-inherit">{{store.name}}</a>
+              </h5>
+              <div class="small text-muted">
+                <ng-container *ngFor="let tagId of store.tags; last as last"><span>{{tagId}}</span>
+                  <span *ngIf="!last" class="mx-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="4" height="4" fill="#C1C7C6"
+                       class="bi bi-circle-fill align-middle "
+                       viewBox="0 0 16 16"><circle cx="8" cy="8" r="8"/></svg>
+                </span>
+                </ng-container>
+              </div>
+              <div>           <!-- badge -->
+                <div class="badge text-bg-light border">{{store.distanceInKilometers}} km</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</section>
+
 <footer class="footer mt-5">
   <div class="container">
     <div class="row g-4">
