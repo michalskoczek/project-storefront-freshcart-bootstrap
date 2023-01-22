@@ -1,11 +1,13 @@
-import {ChangeDetectionStrategy, Component, ViewEncapsulation} from '@angular/core';
-import {Observable, Subject, of, shareReplay, map, tap, combineLatest} from 'rxjs';
-import {CategoryModel} from '../../models/category.model';
-import {StoreModel} from '../../models/store.model';
-import {CategoryService} from '../../services/category.service';
-import {StoreService} from '../../services/store.service';
-import {StoreTagsModel} from "../../models/store-tags.model";
-import {StoreQueryModel} from "../../query-model/store-query.model";
+import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, combineLatest, map, of, shareReplay } from 'rxjs';
+import { CategoryModel } from '../../models/category.model';
+import { StoreQueryModel } from '../../query-model/store-query.model';
+import { StoreModel } from '../../models/store.model';
+import { StoreTagsModel } from '../../models/store-tags.model';
+import { ProductModel } from '../../models/product.model';
+import { CategoryService } from '../../services/category.service';
+import { StoreService } from '../../services/store.service';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-home',
@@ -24,10 +26,24 @@ export class HomeComponent {
     this._storeService.getStories().pipe(shareReplay(1)),
     this._storeService.getStoreTags().pipe(shareReplay(1))
   ]).pipe(
-    map(([stores, tags] : [StoreModel[], StoreTagsModel[]]) => this.mapToStoreQueryModel(stores, tags))
+    map(([stores, tags]: [StoreModel[], StoreTagsModel[]]) => this.mapToStoreQueryModel(stores, tags))
   );
 
-  constructor(private _categoryService: CategoryService, private _storeService: StoreService) {
+  readonly fruitsAndVegetables$: Observable<ProductModel[]> = this._productService.getProductsByCategoryId('5').pipe(
+    map(products => {
+      products.sort((a, b) => this.sortByFeatureValue(a, b));
+      return products.splice(0,5);
+    })
+  );
+
+  readonly snackAndMunchies$: Observable<ProductModel[]> = this._productService.getProductsByCategoryId('2').pipe(
+    map(products => {
+      products.sort((a, b) => this.sortByFeatureValue(a, b));
+      return products.splice(0,5);
+    })
+  );
+
+  constructor(private _categoryService: CategoryService, private _storeService: StoreService, private _productService: ProductService) {
   }
 
   public showMobileMenu(): void {
@@ -50,5 +66,11 @@ export class HomeComponent {
       id: store.id,
       tags: (store.tagIds ?? []).map(id => storeTagsMap[id]?.name)
     }))
+  }
+
+  private sortByFeatureValue(a: ProductModel, b: ProductModel): number {
+    if(a.featureValue > b.featureValue) return -1;
+    if(a.featureValue < b.featureValue) return 1;
+    return 0;
   }
 }
