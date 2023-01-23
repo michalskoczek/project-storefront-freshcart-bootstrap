@@ -137,7 +137,11 @@
     </div>
     <ng-container *ngIf="stores$ | async as stores">
       <div class="row">
-        <p>We have {{stores.length}} vendors now</p>
+        <div class="col-12">
+          <div class="mb-4">
+            <h6>We have <span class="text-primary">{{stores.length}}</span> vendors now</h6>
+          </div>
+        </div>
       </div>
       <div class="row">
         <div *ngFor="let store of stores" class="col-12 col-md-6 col-lg-4 mb-3">
