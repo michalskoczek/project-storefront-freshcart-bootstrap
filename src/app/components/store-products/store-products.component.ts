@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, ViewEncapsulation } from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
-import { Observable, Subject, map, of, shareReplay, switchMap } from 'rxjs';
+import { Observable, map, shareReplay, switchMap } from 'rxjs';
 import { CategoryModel } from '../../models/category.model';
 import { StoreModel } from '../../models/store.model';
 import { CategoryService } from '../../services/category.service';
@@ -17,11 +17,6 @@ import {ProductModel} from "../../models/product.model";
 })
 export class StoreProductsComponent {
   readonly categories$: Observable<CategoryModel[]> = this._categoryService.getCategories().pipe(shareReplay(1));
-  readonly getToKnowsUsElements$: Observable<string[]> = of(['Company', 'About', 'Blog', 'Help Center', 'Our Value']);
-  private _showMobileMenuSubject: Subject<boolean> = new Subject<boolean>();
-  public showMobileMenu$: Observable<boolean> = this._showMobileMenuSubject.asObservable();
-  readonly storesHeader$: Observable<StoreModel[]> = this._storeService.getStories().pipe(shareReplay(1))
-
 
   readonly store$: Observable<StoreModel> = this._activatedRoute.params.pipe(
     switchMap((params: Params) => this._storeService.getStoreByStoreId(params['storeId']).pipe(
@@ -40,14 +35,5 @@ export class StoreProductsComponent {
     private _storeService: StoreService,
     private _productService: ProductService,
     private _activatedRoute: ActivatedRoute) {
-  }
-
-
-  public showMobileMenu(): void {
-    this._showMobileMenuSubject.next(true)
-  }
-
-  public hideMobileMenu(): void {
-    this._showMobileMenuSubject.next(false)
   }
 }
