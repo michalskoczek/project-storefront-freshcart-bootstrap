@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CategoryProductsComponent } from './category-products.component';
+import { HeaderComponent } from './header.component';
 import {CommonModule} from "@angular/common";
 import {RouterModule} from "@angular/router";
 
@@ -8,9 +8,9 @@ import {RouterModule} from "@angular/router";
     CommonModule,
     RouterModule
   ],
-  declarations: [CategoryProductsComponent],
+  declarations: [HeaderComponent],
   providers: [],
-  exports: [CategoryProductsComponent]
+  exports: [HeaderComponent]
 })
-export class CategoryProductsComponentModule {
+export class HeaderComponentModule {
 }
