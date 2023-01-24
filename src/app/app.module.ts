@@ -10,6 +10,8 @@ import { CollapseModule } from 'ngx-bootstrap/collapse';
 import {CategoryServiceModule} from "./services/category.service-module";
 import {StoreServiceModule} from "./services/store.service-module";
 import {ProductServiceModule} from "./services/product.service-module";
+import {HeaderComponentModule} from "./components/header/header.component-module";
+import {FooterComponentModule} from "./components/footer/footer.component-module";
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +25,9 @@ import {ProductServiceModule} from "./services/product.service-module";
     RouterModule,
     CategoryServiceModule,
     StoreServiceModule,
-    ProductServiceModule
+    ProductServiceModule,
+    HeaderComponentModule,
+    FooterComponentModule
   ],
   providers: [],
   bootstrap: [AppComponent],
